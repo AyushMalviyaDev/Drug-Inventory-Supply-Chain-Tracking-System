@@ -1,19 +1,12 @@
 from rest_framework import serializers
-from account.models import User
-from django.utils.encoding import smart_str, force_bytes, DjangoUnicodeDecodeError
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_str, force_bytes, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-
-from account.utils import Util
-
-
-from rest_framework import serializers
 from django.utils import timezone
+from datetime import timedelta
+
 from .models import User
-from .utils import generate_otp, send_otp
+from .utils import generate_otp, send_otp, Util
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
