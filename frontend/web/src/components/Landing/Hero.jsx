@@ -29,7 +29,7 @@ export default function Hero() {
         {/* Heading */}
         <motion.h1
           variants={fadeUp}
-          className="text-3xl md:text-7xl font-bold leading-tight"
+          className="text-3xl md:text-7xl font-bold leading-tight "
         >
           Make your pharmaceutical network smarter — in supply, analytics, and beyond
         </motion.h1>

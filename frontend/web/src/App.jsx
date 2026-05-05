@@ -7,6 +7,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ChangePassword from "./pages/ChangePassword";
 import VerifyOTP from "./pages/VerifyOTP";
+import Contact from "./pages/Contact";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Landing = lazy(() => import("./pages/Landing"));
@@ -26,6 +27,8 @@ function App() {
       <Route path="/register" element={<Register />} /> 
         <Route path="/login" element={<Login/>} />  
         <Route path="/verify" element={<VerifyOTP />} />
+       <Route path="/contact" element={<Contact />} />
+
       <Route element={<MainLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/orders" element={<Orders />} />
@@ -34,6 +37,7 @@ function App() {
         <Route path="/reports" element={<Reports />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/changepassword" element={<ChangePassword />} />
+        
 
       </Route>
 

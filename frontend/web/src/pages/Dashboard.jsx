@@ -1,100 +1,76 @@
 import React, { useEffect, useState } from "react";
-import { api } from "../api";
-
-function StatCard({ title, value, sub, icon }) {
-  return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition">
-
-      {/* Top Row */}
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm text-gray-500">{title}</h3>
-        <span className="text-xl">{icon}</span>
-      </div>
-
-      {/* Value */}
-      <h2 className="text-3xl font-bold text-black mt-2">
-        {value}
-      </h2>
-
-      {/* Sub text */}
-      <p className="text-xs text-gray-500 mt-1">
-        {sub}
-      </p>
-    </div>
-  );
-}
 
 export default function Dashboard() {
-  const [drugs, setDrugs] = useState([]);
-  const [categories, setCategories] = useState([]);
+const [data, setData] = useState(null);
+const role = localStorage.getItem("role"); // "pharmacy"/ change to MANUFACTURER / DISTRIBUTOR
 
-  const fetchData = async () => {
-    try {
-      const drugRes = await api.get("inventory/drugs/");
-      const catRes = await api.get("inventory/categories/");
+  const roleMap = {
+    manufacturer: "manufacturer",
+    distributor: "distributor",
+    pharmacy: "pharmacy",
+  };
 
-      setDrugs(drugRes.data);
-      setCategories(catRes.data);
-    } catch (err) {
-      console.error(err);
-    }
+  const dashboardConfig = {
+    pharmacy: [
+      { key: "total_orders", label: "Total Orders" },
+      { key: "pending_orders", label: "Pending Orders" },
+      { key: "approved_orders", label: "Approved Orders" },
+    ],
+    manufacturer: [
+      { key: "incoming_requests", label: "Incoming Requests" },
+      { key: "pending_incoming", label: "Pending Incoming" },
+      { key: "outgoing_requests", label: "Outgoing Requests" },
+      { key: "total_stock", label: "Total Stock" },
+    ],
+    distributor: [
+      { key: "total_drugs", label: "Total Drugs" },
+      { key: "pending_requests", label: "Pending Requests" },
+      { key: "approved_requests", label: "Approved Requests" },
+      { key: "total_stock", label: "Total Stock" },
+    ],
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    const apiRole = roleMap[role];
 
-  const totalDrugs = drugs.length;
-  const totalCategories = categories.length;
-  const lowStock = drugs.filter((d) => d.quantity < 10).length;
+    const fetchDashboard = async () => {
+      try {
+        const res = await fetch(
+          `http://127.0.0.1:8000/api/inventory/dashboard/${apiRole}/`
+        );
 
-  const expiringSoon = drugs.filter((d) => {
-    if (!d.expiry_date) return false;
-    const expiry = new Date(d.expiry_date);
-    const today = new Date();
-    const diff = (expiry - today) / (1000 * 60 * 60 * 24);
-    return diff <= 30;
-  }).length;
+        const json = await res.json();
+        setData(json);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchDashboard();
+  }, [role]);
+
+  if (!data) return <div className="p-6">Loading dashboard...</div>;
+
+  const apiRole = roleMap[role];
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-
-      {/* Header */}
-      <h1 className="text-2xl font-bold text-black mb-6">
-        Dashboard Overview
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-2xl font-semibold mb-6 capitalize">
+        {apiRole} Dashboard
       </h1>
 
-      {/* Cards */}
-      <div className="grid md:grid-cols-4 gap-5">
-
-        <StatCard
-          title="Total Drugs"
-          value={totalDrugs}
-          sub="In inventory"
-          icon="📦"
-        />
-
-        <StatCard
-          title="Categories"
-          value={totalCategories}
-          sub="Active types"
-          icon="📁"
-        />
-
-        <StatCard
-          title="Low Stock"
-          value={lowStock}
-          sub="Need refill"
-          icon="⚠️"
-        />
-
-        <StatCard
-          title="Expiring Soon"
-          value={expiringSoon}
-          sub="Within 30 days"
-          icon="⏳"
-        />
-
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {dashboardConfig[apiRole].map((item) => (
+          <div
+            key={item.key}
+            className="bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition"
+          >
+            <p className="text-gray-500 text-sm">{item.label}</p>
+            <h2 className="text-2xl font-bold mt-2">
+              {data[item.key] ?? 0}
+            </h2>
+          </div>
+        ))}
       </div>
     </div>
   );

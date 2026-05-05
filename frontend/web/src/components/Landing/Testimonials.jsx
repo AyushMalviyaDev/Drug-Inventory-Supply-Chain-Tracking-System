@@ -17,20 +17,20 @@ const fadeUp = {
 
 const testimonials = [
   {
-    name: "Dr. Rohan Mehta",
-    role: "Hospital Administrator",
+    name: "Sumit Sharma",
+    role: "",
     feedback:
       "PharmaLink completely transformed how we track inventory. We reduced expired stock by nearly 30% within months.",
   },
   {
-    name: "Anjali Verma",
-    role: "Pharmacy Owner",
+    name: "Harshal Jain",
+    role: "",
     feedback:
       "The real-time insights and alerts help us maintain stock levels efficiently. It’s simple and extremely effective.",
   },
   {
-    name: "Vikram Singh",
-    role: "Distributor",
+    name: "Ayush Gupta",
+    role: "",
     feedback:
       "Managing supply chains across multiple hospitals has never been easier. Everything is streamlined and transparent.",
   },
@@ -49,9 +49,6 @@ export default function Testimonials() {
         <h1 className="text-3xl md:text-5xl font-bold text-black">
           What Our Users Say
         </h1>
-        <p className="text-gray-600 mt-4">
-          Trusted by healthcare professionals across the network
-        </p>
       </motion.div>
 
       {/* Cards */}

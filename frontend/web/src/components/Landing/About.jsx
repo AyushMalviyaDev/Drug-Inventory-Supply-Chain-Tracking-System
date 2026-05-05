@@ -56,7 +56,7 @@ export default function About() {
             <p>Order & Distribution Management</p>
             <p>Analytics & Reporting</p>
             <p>Smart Dashboard</p>
-            <p>AI-Powered Demand Forecasting</p>
+            
           </div>
 
           <button className="px-5 py-2 border border-black text-sm font-medium hover:bg-black hover:text-white transition">

@@ -106,7 +106,7 @@ export default function Sidebar() {
           {
             name: "Contact & Help",
             icon: HelpCircle,
-            onClick: () => alert("Open Help/Contact page"),
+            onClick: () => window.location.href = "/contact",
           },
           {
             name: "Logout",

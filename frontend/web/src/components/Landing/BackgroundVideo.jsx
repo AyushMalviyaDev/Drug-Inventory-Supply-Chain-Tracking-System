@@ -17,22 +17,22 @@ const fadeUp = {
 
 const developers = [
   {
-    name: "Arjun Sharma",
+    name: "Ayush Malviya",
     role: "Full Stack Developer",
     desc: "Focused on building scalable backend systems and integrating APIs for seamless data flow.",
   },
   {
-    name: "Neha Verma",
-    role: "Frontend Developer",
+    name: "Arpita Sharma",
+    role: "Backend Developer",
+    desc: "",
+  },
+  {
+    name: "Anurag Vaishnav",
+    role: "UI/UX",
     desc: "Designs clean and responsive interfaces with a strong focus on user experience.",
   },
   {
-    name: "Rohit Patel",
-    role: "Blockchain Engineer",
-    desc: "Works on smart contracts and ensures secure, transparent transactions across the network.",
-  },
-  {
-    name: "Aisha Khan",
+    name: "Ayukti Thakur",
     role: "AI/ML Engineer",
     desc: "Builds intelligent models for demand prediction and analytics in pharma systems.",
   },

@@ -9,6 +9,7 @@ export default function Login() {
   const [form, setForm] = useState({
     email: "",
     password: "",
+    role: "", // ✅ added
   });
 
   const [error, setError] = useState("");
@@ -35,6 +36,8 @@ export default function Login() {
       if (res.data.tokens) {
         localStorage.setItem("access", res.data.tokens.access);
         localStorage.setItem("refresh", res.data.tokens.refresh);
+        localStorage.setItem("role", form.role); // ✅ store role
+
         navigate("/dashboard");
       }
     } catch (err) {
@@ -53,15 +56,12 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md bg-white border border-gray-200 rounded-2xl shadow-sm p-8"
       >
-
-        {/* Heading */}
         <div className="text-center mb-6">
           <h2 className="text-2xl font-semibold text-black">
             Welcome back
@@ -71,16 +71,13 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Error */}
         {error && (
           <p className="text-red-500 text-sm mb-4 text-center">
             {error}
           </p>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-
           <input
             type="email"
             name="email"
@@ -99,7 +96,19 @@ export default function Login() {
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
           />
 
-          {/* Options */}
+          {/* ✅ Role Selector */}
+          <select
+            name="role"
+            value={form.role}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
+          >
+            <option value="">Select Role</option>
+            <option value="manufacturer">Manufacturer</option>
+            <option value="distributor">Distributor</option>
+            <option value="retailer">Retailer</option>
+          </select>
+
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 text-gray-600">
               <input type="checkbox" />
@@ -111,7 +120,6 @@ export default function Login() {
             </span>
           </div>
 
-          {/* Button */}
           <button
             type="submit"
             disabled={loading}
@@ -121,7 +129,6 @@ export default function Login() {
           </button>
         </form>
 
-        {/* Footer */}
         <p className="text-sm text-gray-500 text-center mt-6">
           Don’t have an account?{" "}
           <span
@@ -131,7 +138,6 @@ export default function Login() {
             Sign up
           </span>
         </p>
-
       </motion.div>
     </div>
   );
