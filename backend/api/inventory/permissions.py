@@ -7,5 +7,15 @@ class IsManufacturer(BasePermission):
 
 class IsDistributor(BasePermission):
     def has_permission(self, request, view):
-        return request.user.role == "distributor"
+        return request.user.is_authenticated and request.user.role == "distributor"
+
+
+class IsManufacturerOrDistributor(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role in ['manufacturer', 'distributor']
+
+
+class IsTransporter(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'transporter'
 

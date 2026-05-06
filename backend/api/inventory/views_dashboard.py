@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .models import Drug, DrugRequest, Inventory
+from .models import Drug, DrugRequest, Inventory, Shipment
 
 class ManufacturerDashboard(APIView):
     permission_classes = [IsAuthenticated]
@@ -64,6 +64,37 @@ class PharmacyDashboard(APIView):
                     "quantity": i.quantity
                 }
                 for i in inventory
+            ]
+        }
+
+        return Response(data)
+
+
+class TransporterDashboard(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        shipments = Shipment.objects.filter(transporter=request.user)
+
+        data = {
+            "total_shipments": shipments.count(),
+            "pending_shipments": shipments.filter(status="PENDING").count(),
+            "in_transit_shipments": shipments.filter(status="IN_TRANSIT").count(),
+            "delivered_shipments": shipments.filter(status="DELIVERED").count(),
+
+            "shipments": [
+                {
+                    "id": s.id,
+                    "tracking_number": s.tracking_number,
+                    "drug": s.drug_request.drug.name,
+                    "quantity": s.drug_request.quantity,
+                    "from_user": s.drug_request.from_user.email,
+                    "to_user": s.drug_request.to_user.email,
+                    "status": s.status,
+                    "shipped_at": s.shipped_at,
+                    "delivered_at": s.delivered_at,
+                }
+                for s in shipments
             ]
         }
 

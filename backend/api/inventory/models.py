@@ -53,3 +53,28 @@ class DrugRequest(models.Model):
     status = models.CharField(max_length=20, default="PENDING")
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Shipment(models.Model):
+    STATUS_CHOICES = [
+        ('PENDING', 'Pending'),
+        ('IN_TRANSIT', 'In Transit'),
+        ('DELIVERED', 'Delivered'),
+    ]
+
+    drug_request = models.OneToOneField(DrugRequest, on_delete=models.CASCADE)
+    transporter = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': 'transporter'})
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
+    tracking_number = models.CharField(max_length=100, unique=True, blank=True)
+    shipped_at = models.DateTimeField(null=True, blank=True)
+    delivered_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.tracking_number:
+            import uuid
+            self.tracking_number = str(uuid.uuid4())[:8].upper()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Shipment {self.tracking_number} - {self.status}"

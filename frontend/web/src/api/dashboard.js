@@ -8,3 +8,6 @@ export const getDistributorDashboard = () =>
 
 export const getPharmacyDashboard = () =>
   api.get("inventory/dashboard/pharmacy/");
+
+export const getTransporterDashboard = () =>
+  api.get("inventory/dashboard/transporter/");

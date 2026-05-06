@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import Drug, DrugRequest
+from .models import Drug, DrugRequest, Shipment
 
 
 class DrugSerializer(serializers.ModelSerializer):
@@ -14,4 +14,11 @@ class DrugRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = DrugRequest
         fields = "__all__"
-        read_only_fields = ["requested_by", "status", "created_at"]
+        read_only_fields = ["from_user", "status", "created_at"]
+
+
+class ShipmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shipment
+        fields = "__all__"
+        read_only_fields = ["tracking_number", "created_at"]
