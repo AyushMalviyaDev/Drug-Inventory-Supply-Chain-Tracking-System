@@ -18,23 +18,23 @@ const fadeUp = {
 const developers = [
   {
     name: "Ayush Malviya",
-    role: "Full Stack Developer",
-    desc: "Focused on building scalable backend systems and integrating APIs for seamless data flow.",
+    role: "Backend Developer",
+    desc: "Focused on building scalable backend systems, developing REST APIs, and ensuring secure and efficient server-side functionality.",
   },
   {
     name: "Arpita Sharma",
-    role: "Backend Developer",
-    desc: "Worked on database schema and data management for the project.",
+    role: "Database & System Integrator",
+    desc: "Manages database architecture, system integration, and ensures smooth communication between application components.",
   },
   {
     name: "Anurag Vaishnav",
-    role: "UI/UX",
-    desc: "Designs clean and responsive interfaces with a strong focus on user experience.",
+    role: "Frontend Developer",
+    desc: "Designs clean and responsive user interfaces with a strong focus on usability, accessibility, and seamless user experience.",
   },
   {
     name: "Ayukti Thakur",
-    role: "AI/ML Engineer",
-    desc: "Builds intelligent models for demand prediction and analytics in pharma systems.",
+    role: "Testing and Documentation",
+    desc: "Handles software testing, project documentation, and ensures system reliability through detailed validation and reporting.",
   },
 ];
 
@@ -52,7 +52,7 @@ export default function Credits() {
           Meet the Team
         </h1>
         <p className="text-gray-600 mt-4">
-          The minds behind PharmaLink
+          Instructed by Prof. Varsha Choudhary
         </p>
       </motion.div>
 
@@ -70,9 +70,13 @@ export default function Credits() {
             className="group p-6 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-xl transition duration-300"
           >
             {/* Avatar */}
-            <div className="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition">
-              {dev.name.charAt(0)}
-            </div>
+           <div className="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition">
+  {dev.name
+    .split(" ")
+    .map((word) => word.charAt(0))
+    .slice(0, 2)
+    .join("")}
+</div>
 
             {/* Name */}
             <h2 className="text-lg font-semibold text-black">

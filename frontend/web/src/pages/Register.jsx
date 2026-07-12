@@ -6,12 +6,20 @@ import { motion } from "framer-motion";
 export default function Register() {
   const navigate = useNavigate();
 
+  const roles = [
+    { value: "manufacturer", label: "Manufacturer" },
+    { value: "pharmacist", label: "Pharmacist" },
+    { value: "distributor", label: "Distributor" },
+    { value: "transporter", label: "Transporter" },
+  ];
+
   const [form, setForm] = useState({
     email: "",
     name: "",
     password: "",
     password2: "",
     tc: false,
+    role: "manufacturer",
   });
 
   const [error, setError] = useState("");
@@ -25,11 +33,28 @@ export default function Register() {
     });
   };
 
+  const handleRoleSelect = (role) => {
+    setForm({ ...form, role });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (loading) return;
+
+    // ✅ frontend validation
+    if (form.password !== form.password2) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (!form.tc) {
+      setError("Please accept Terms & Conditions");
+      return;
+    }
+
     setLoading(true);
+    setError("");
 
     try {
       await axios.post(
@@ -39,8 +64,15 @@ export default function Register() {
 
       localStorage.setItem("email", form.email);
       navigate("/verify", { state: { email: form.email } });
+
     } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
+      if (err.response?.data) {
+        const errors = err.response.data;
+        const firstError = Object.values(errors)[0];
+        setError(Array.isArray(firstError) ? firstError[0] : "Registration failed");
+      } else {
+        setError("Registration failed");
+      }
     } finally {
       setLoading(false);
     }
@@ -48,7 +80,6 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -62,7 +93,7 @@ export default function Register() {
             Create account
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            Start your journey with us
+            Choose your role to continue
           </p>
         </div>
 
@@ -76,11 +107,29 @@ export default function Register() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
 
+          {/* Role Selection (cards UI) */}
+          <div className="grid grid-cols-2 gap-3">
+            {roles.map((r) => (
+              <div
+                key={r.value}
+                onClick={() => handleRoleSelect(r.value)}
+                className={`p-3 border rounded-xl cursor-pointer text-center text-sm font-medium transition
+                  ${form.role === r.value
+                    ? "border-black bg-gray-100"
+                    : "border-gray-300 hover:bg-gray-50"
+                  }`}
+              >
+                {r.label}
+              </div>
+            ))}
+          </div>
+
           <input
             type="email"
             name="email"
             placeholder="Email"
             onChange={handleChange}
+            required
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
           />
 
@@ -89,6 +138,7 @@ export default function Register() {
             name="name"
             placeholder="Full Name"
             onChange={handleChange}
+            required
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
           />
 
@@ -97,6 +147,7 @@ export default function Register() {
             name="password"
             placeholder="Password"
             onChange={handleChange}
+            required
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
           />
 
@@ -105,11 +156,17 @@ export default function Register() {
             name="password2"
             placeholder="Confirm Password"
             onChange={handleChange}
+            required
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black"
           />
 
           <label className="flex items-center gap-2 text-sm text-gray-600">
-            <input type="checkbox" name="tc" onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="tc"
+              onChange={handleChange}
+              required
+            />
             Accept Terms & Conditions
           </label>
 

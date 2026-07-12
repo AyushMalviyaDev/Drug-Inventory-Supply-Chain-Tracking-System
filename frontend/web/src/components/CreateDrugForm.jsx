@@ -40,7 +40,7 @@ export default function CreateDrugForm({ onCreated }) {
         <input name="price" type="number" step="0.01" value={form.price} onChange={handleChange} placeholder="Price" required className="px-3 py-2 border rounded" />
       </div>
       <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" className="w-full px-3 py-2 border rounded mt-4" />
-      <button type="submit" disabled={loading} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+      <button type="submit" disabled={loading} className="mt-4 bg-black text-white px-4 py-2 rounded">
         {loading ? "Creating..." : "Create Drug"}
       </button>
     </form>

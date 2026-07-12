@@ -64,7 +64,7 @@ export default function About() {
           </button>
         </motion.div>
 
-        {/* RIGHT CONTENT */}
+        {/* RIGHT CONTENT */} 
         <motion.div
           variants={fadeRight}
           className="relative flex justify-center"
@@ -72,7 +72,7 @@ export default function About() {
           <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white p-3">
             
             <img
-              src="/image.png"
+              src="/hi.png"
               alt="dashboard"
               className="rounded-lg w-full h-full object-cover"
             />

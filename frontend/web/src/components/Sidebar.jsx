@@ -38,7 +38,7 @@ export default function Sidebar() {
           {!isCollapsed && (
             <Link to="/dashboard">
               <div className="text-xl font-semibold tracking-tight text-black">
-                DIASCTS
+                PharmaLink
               </div>
             </Link>
           )}

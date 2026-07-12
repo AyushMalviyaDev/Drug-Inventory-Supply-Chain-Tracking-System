@@ -11,6 +11,7 @@ export default function Login() {
   const [form, setForm] = useState({
     email: "",
     password: "",
+    role: "",
   });
 
   const [error, setError] = useState("");
