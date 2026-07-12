@@ -24,7 +24,7 @@ const developers = [
   {
     name: "Arpita Sharma",
     role: "Backend Developer",
-    desc: "",
+    desc: "Worked on database schema and data management for the project.",
   },
   {
     name: "Anurag Vaishnav",
